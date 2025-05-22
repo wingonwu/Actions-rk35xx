@@ -5,9 +5,13 @@ on:
   workflow_dispatch:
      inputs:
        ssh:
-         description: 'SSH connection to Actions'
+         description: '选择是否需要 SSH 链接'
          required: true
-         default: 'true'
+         default: 'false'
+         type: choice
+         options:
+         - 'true'
+         - 'false'
   schedule:
    - cron: 0 16 * * *
 
@@ -30,8 +34,15 @@ jobs:
     strategy:
       matrix:
         REPO_BRANCH:
-           - master
-          # - openwrt-24.10
+        description: "选择版本"
+        required: true
+        default: 'master'
+        type: choice
+        options:
+         - 'master'
+         - 'openwrt-24.10.1'
+         - 'openwrt-24.10'
+         - 'openwrt-23.05'
         ARCHITECTURE:
           - armv8
         os:
