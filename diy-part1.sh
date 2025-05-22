@@ -21,15 +21,12 @@ sed -i "s/OPENWRT_RELEASE.*/OPENWRT_RELEASE=\"%D %V ${date_version} by ${author}
 # 复制相关文件到源码根目录
 cp -rf $GITHUB_WORKSPACE/immortalwrt/* .
 # 复制 g68 配置文件到源码根目录
-cp -f $GITHUB_WORKSPACE/immortalwrt/defconfig/g68-plus-dsa-dsa-docker.config .config
+cp -f defconfig/g68-plus-dsa-docker.config .1config
 # 修改启动等待时间为 3 秒。
-sed -i '/^config/s/default "0"/default "3"/' config/Config-images.in
-# 验证修改结果
-echo config/Config-images.in
-grep -A2 '^config' config/Config-images.in | grep 'default "3"'
+sed -i 's/default "0"/default "3"/g' config/Config-images.in
 
 # Uboot编译处添加设备选项
-sed -i '/mrkaio-m68s-rk3568 \\/a \+nsy-g16-plus-rk3568 \\\n\+nsy-g68-plus-rk3568 \\' package/boot/uboot-rockchip/Makefile
+sed -i '/mrkaio-m68s-rk3568 \\/a \  nsy-g16-plus-rk3568 \\\n\  nsy-g68-plus-rk3568 \\' package/boot/uboot-rockchip/Makefile
 # 在"# RK3568 boards"注释行后插入两个完整的U-Boot配置块
 sed -i '/^# RK3568 boards$/a \
 define U-Boot\/nsy-g16-plus-rk3568\
@@ -44,24 +41,19 @@ define U-Boot\/nsy-g68-plus-rk3568\
   NAME:=NSY G68 PLUS\
   BUILD_DEVICES:= \\\
     nsy_g68-plus\
-endef\
-' package/boot/uboot-rockchip/Makefile
-# 验证修改结果
-grep -A10 "RK3568 boards" package/boot/uboot-rockchip/Makefile
+endef\' package/boot/uboot-rockchip/Makefile
 
 sed -i 's/@@ -87,6 +87,23 @@/@@ -87,6 +87,25 @@/' package/boot/uboot-rockchip/patches/900-arm-add-dts-files.patch
 sed -i '/dtb-\$(CONFIG_ROCKCHIP_RK3568) += \\/a \\+	rk3568-nsy-g16-plus.dtb \\\n\+	rk3568-nsy-g68-plus.dtb \\' package/boot/uboot-rockchip/patches/900-arm-add-dts-files.patch
-# 验证修改结果
-grep -A5 'dtb-\$(CONFIG_ROCKCHIP_RK3568)' package/boot/uboot-rockchip/patches/900-arm-add-dts-files.patch
 
 # 内核 wifi 模块添加驱动文件
-sed -i '/$(PKG_BUILD_DIR)\/firmware\/mt7615_rom_patch.bin \\/a \\t\.\/firmware\/mt7615e_rf.bin \\' package/kernel/mt76/Makefile
+sed -i '/$(PKG_BUILD_DIR)\/firmware\/mt7615_rom_patch.bin \\/a \\t\t\.\/firmware\/mt7615e_rf.bin \\' package/kernel/mt76/Makefile
 # 替换原有路径并追加eeprom配置
 sed -i '/mt7916_wa\.bin \\/ {
     N
     N
     s|$(PKG_BUILD_DIR)/firmware/|./firmware/|g
-    a \t\t./firmware/mt7916_eeprom.bin \\
+    a \\t\t\.\/firmware/mt7916_eeprom.bin \\
 }' package/kernel/mt76/Makefile
 
 #脚本目录添加用户分区
@@ -84,7 +76,7 @@ echo -e "\\ndefine Device/nsy_g16-plus
   DEVICE_DTS := rockchip/rk3568-nsy-g16-plus
   UBOOT_DEVICE_NAME := nsy-g16-plus-rk3568
   BOOT_FLOW := pine64-img
-  DEVICE_PACKAGES := kmod-mt7615-firmware kmod-switch-rtl8367b wpad-openssl kmod-dsa-rtl8365mb
+  DEVICE_PACKAGES := kmod-mt7615-firmware wpad-openssl kmod-dsa-rtl8365mb
 endef
 TARGET_DEVICES += nsy_g16-plus
 
@@ -95,7 +87,7 @@ define Device/nsy_g68-plus
   DEVICE_DTS := rockchip/rk3568-nsy-g68-plus-dsa
   UBOOT_DEVICE_NAME := nsy-g68-plus-rk3568
   BOOT_FLOW := pine64-img
-  DEVICE_PACKAGES := kmod-mt7916-firmware kmod-switch-rtl8367b wpad-openssl kmod-dsa-rtl8365mb
+  DEVICE_PACKAGES := kmod-mt7916-firmware wpad-openssl kmod-dsa-rtl8365mb
 endef
 TARGET_DEVICES += nsy_g68-plus" >> target/linux/rockchip/image/armv8.mk
 
