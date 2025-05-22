@@ -24,8 +24,6 @@ cp -f $GITHUB_WORKSPACE/immortalwrt/* ./
 sed -i '/^config/s/default "0"/default "3"/' config/Config-images.in
 # 验证修改结果
 grep -A2 '^config' config/Config-images.in | grep 'default "3"'
-# 复制 g68 配置文件到源码根目录
-cp -f $GITHUB_WORKSPACE/deconfig/g68-plus-dsadocker.config .config
 
 # Uboot编译处添加设备选项
 sed -i '/mrkaio-m68s-rk3568 \\/a \\tnsy-g16-plus-rk3568 \\\n\\tnsy-g68-plus-rk3568 \\' package/boot/uboot-rockchip/Makefile
