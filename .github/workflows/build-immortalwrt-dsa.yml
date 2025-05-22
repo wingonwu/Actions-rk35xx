@@ -39,10 +39,10 @@ jobs:
         default: 'master'
         type: choice
         options:
-         - 'master'
-         - 'openwrt-24.10.1'
-         - 'openwrt-24.10'
-         - 'openwrt-23.05'
+          - 'master'
+          - 'openwrt-24.10.1'
+          - 'openwrt-24.10'
+          - 'openwrt-23.05'
         ARCHITECTURE:
           - armv8
         os:
