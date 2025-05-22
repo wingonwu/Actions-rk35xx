@@ -21,7 +21,7 @@ sed -i "s/OPENWRT_RELEASE.*/OPENWRT_RELEASE=\"%D %V ${date_version} by ${author}
 # 复制相关文件到源码根目录
 cp -rf $GITHUB_WORKSPACE/immortalwrt/* .
 # 复制 g68 配置文件到源码根目录
-cp -f defconfig/g68-plus-dsa-docker.config .1config
+cp -f defconfig/g68-plus-dsa-docker.config .config
 # 修改启动等待时间为 3 秒。
 sed -i 's/default "0"/default "3"/g' config/Config-images.in
 
