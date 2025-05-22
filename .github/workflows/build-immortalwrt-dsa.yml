@@ -4,6 +4,16 @@ on:
   repository_dispatch:
   workflow_dispatch:
      inputs:
+       REPO_BRANCH:
+        description: "选择系统版本"
+        required: true
+        default: 'master'
+        type: choice
+        options:
+          - 'master'
+          - 'openwrt-24.10.1'
+          - 'openwrt-24.10'
+          - 'openwrt-23.05'
        ssh:
          description: '选择是否需要 SSH 链接'
          required: true
@@ -13,7 +23,7 @@ on:
          - 'true'
          - 'false'
   schedule:
-   - cron: 0 16 * * *
+    - cron: 0 16 * * *
 
 env:
   REPO_URL: https://github.com/immortalwrt/immortalwrt
@@ -33,16 +43,6 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        REPO_BRANCH:
-        description: "选择版本"
-        required: true
-        default: 'master'
-        type: choice
-        options:
-          - 'master'
-          - 'openwrt-24.10.1'
-          - 'openwrt-24.10'
-          - 'openwrt-23.05'
         ARCHITECTURE:
           - armv8
         os:
