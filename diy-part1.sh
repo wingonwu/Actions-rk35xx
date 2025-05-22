@@ -19,7 +19,7 @@ sed -i "s/OPENWRT_RELEASE.*/OPENWRT_RELEASE=\"%D %V ${date_version} by ${author}
 # 开始复制设备信息，修改源码文件
 
 # 复制相关文件到源码根目录
-cp -f $GITHUB_WORKSPACE/immortalwrt/* ./
+rsync -av --delete $GITHUB_WORKSPACE/immortalwrt/ .
 # 修改启动等待时间为 3 秒。
 sed -i '/^config/s/default "0"/default "3"/' config/Config-images.in
 # 验证修改结果

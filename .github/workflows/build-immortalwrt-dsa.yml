@@ -132,7 +132,7 @@ jobs:
       run: |
         cd openwrt
         # 复制 g68 配置文件到源码根目录
-        cp -f $GITHUB_WORKSPACE/immortalwrt/deconfig/g68-plus-dsa-dsadocker.config .config
+        cp -f deconfig/g68-plus-dsa-dsa-docker.config .config
         make defconfig
         make download -j8
         find dl -size -1024c -exec ls -l {} \;
