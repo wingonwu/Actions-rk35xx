@@ -132,7 +132,7 @@ jobs:
       run: |
         cd openwrt
         # 复制 g68 配置文件到源码根目录
-        cp -f deconfig/g68-plus-dsadocker.config .config
+        cp -f defconfig/g68-plus-dsadocker.config .config
         sed -i 's/rk3568-nsy-g68-plus-dsa/rk3568-nsy-g68-plus/g' target/linux/rockchip/image/armv8.mk
         grep "rk3568-nsy-g68-plus" target/linux/rockchip/image/armv8.mk
         make defconfig

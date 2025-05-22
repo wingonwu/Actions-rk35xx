@@ -23,10 +23,11 @@ cp -rf $GITHUB_WORKSPACE/immortalwrt/ .
 # 修改启动等待时间为 3 秒。
 sed -i '/^config/s/default "0"/default "3"/' config/Config-images.in
 # 验证修改结果
+echo config/Config-images.in
 grep -A2 '^config' config/Config-images.in | grep 'default "3"'
 
 # Uboot编译处添加设备选项
-sed -i '/mrkaio-m68s-rk3568 \\/a \\tnsy-g16-plus-rk3568 \\\n\\tnsy-g68-plus-rk3568 \\' package/boot/uboot-rockchip/Makefile
+sed -i '/mrkaio-m68s-rk3568 \\/a \+nsy-g16-plus-rk3568 \\\n\+nsy-g68-plus-rk3568 \\' package/boot/uboot-rockchip/Makefile
 # 在"# RK3568 boards"注释行后插入两个完整的U-Boot配置块
 sed -i '/^# RK3568 boards$/a \
 define U-Boot\/nsy-g16-plus-rk3568\
@@ -47,7 +48,7 @@ endef\
 grep -A10 "RK3568 boards" package/boot/uboot-rockchip/Makefile
 
 sed -i 's/@@ -87,6 +87,23 @@/@@ -87,6 +87,25 @@/' package/boot/uboot-rockchip/patches/900-arm-add-dts-files.patch
-sed -i '/dtb-\$(CONFIG_ROCKCHIP_RK3568) += \\/a \\\trk3568-nsy-g16-plus.dtb \\\n\\trk3568-nsy-g68-plus.dtb \\' package/boot/uboot-rockchip/patches/900-arm-add-dts-files.patch
+sed -i '/dtb-\$(CONFIG_ROCKCHIP_RK3568) += \\/a \\+ rk3568-nsy-g16-plus.dtb \\\n\+  rk3568-nsy-g68-plus.dtb \\' package/boot/uboot-rockchip/patches/900-arm-add-dts-files.patch
 # 验证修改结果
 grep -A5 'dtb-\$(CONFIG_ROCKCHIP_RK3568)' package/boot/uboot-rockchip/patches/900-arm-add-dts-files.patch
 
