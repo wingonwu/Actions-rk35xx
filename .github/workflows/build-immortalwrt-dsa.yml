@@ -7,10 +7,11 @@ on:
        REPO_BRANCH:
         description: "选择系统版本"
         required: true
+        type: choice
         default: 'master'
         options:
-          - 'master'
-          - 'openwrt-24.10'
+          - master
+          - openwrt-24.10
        ssh:
          description: '选择是否需要 SSH 链接'
          required: true
