@@ -10,8 +10,8 @@ on:
         type: choice
         default: 'master'
         options:
-          - master
-          - openwrt-24.10
+          - 'master'
+          - 'openwrt-24.10'
        ssh:
          description: '选择是否需要 SSH 链接'
          required: true
@@ -90,11 +90,11 @@ jobs:
         sudo mkdir -p /mnt/workdir
         sudo chown $USER:$GROUPS /mnt/workdir
 
-    - name: 克隆源码
+    - name: 克隆源码 版本→ ${{ inputs.REPO_BRANCH }}
       working-directory: /mnt/workdir
       run: |
         df -hT $PWD
-        git clone $REPO_URL -b ${{ matrix.REPO_BRANCH }} openwrt
+        git clone $REPO_URL -b ${{ inputs.REPO_BRANCH }} openwrt
         ln -sf /mnt/workdir/openwrt $GITHUB_WORKSPACE/openwrt
 
     - name: 缓存构建动作
@@ -178,7 +178,7 @@ jobs:
       uses: actions/upload-artifact@main
       if: steps.organize.outputs.status == 'success' && !cancelled()
       with:
-        name: ImmortalWrt_DSA_firmware${{ env.FILE_DATE }}
+        name: ImmortalWrt_DSA_firmware_${{ inputs.REPO_BRANCH }}_${{ env.FILE_DATE }}
         path: ${{ env.FIRMWARE }}
 
     - name: 生成发布标签
