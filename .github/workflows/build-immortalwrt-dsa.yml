@@ -8,12 +8,9 @@ on:
         description: "选择系统版本"
         required: true
         default: 'master'
-        type: choice
         options:
           - 'master'
-          - 'openwrt-24.10.1'
           - 'openwrt-24.10'
-          - 'openwrt-23.05'
        ssh:
          description: '选择是否需要 SSH 链接'
          required: true
