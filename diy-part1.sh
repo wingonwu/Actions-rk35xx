@@ -81,7 +81,7 @@ echo -e "\\ndefine Device/nsy_g16-plus
   DEVICE_DTS := rockchip/rk3568-nsy-g16-plus
   UBOOT_DEVICE_NAME := nsy-g16-plus-rk3568
   BOOT_FLOW := pine64-img
-  DEVICE_PACKAGES := kmod-mt7615-firmware kmod-switch-rtl8367b wpad-openssl
+  DEVICE_PACKAGES := kmod-mt7615-firmware kmod-switch-rtl8367b wpad-openssl kmod-dsa-rtl8365mb
 endef
 TARGET_DEVICES += nsy_g16-plus
 
@@ -92,7 +92,7 @@ define Device/nsy_g68-plus
   DEVICE_DTS := rockchip/rk3568-nsy-g68-plus-dsa
   UBOOT_DEVICE_NAME := nsy-g68-plus-rk3568
   BOOT_FLOW := pine64-img
-  DEVICE_PACKAGES := kmod-mt7916-firmware kmod-switch-rtl8367b wpad-openssl
+  DEVICE_PACKAGES := kmod-mt7916-firmware kmod-switch-rtl8367b wpad-openssl kmod-dsa-rtl8365mb
 endef
 TARGET_DEVICES += nsy_g68-plus" >> target/linux/rockchip/image/armv8.mk
 
