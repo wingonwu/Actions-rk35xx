@@ -91,7 +91,7 @@ define Device/nsy_g68-plus
   DEVICE_VENDOR := NSY
   DEVICE_MODEL := G68-PLUS
   SOC := rk3568
-  DEVICE_DTS := rockchip/rk3568-nsy-g68-plus
+  DEVICE_DTS := rockchip/rk3568-nsy-g68-plus-dsa
   UBOOT_DEVICE_NAME := nsy-g68-plus-rk3568
   BOOT_FLOW := pine64-img
   DEVICE_PACKAGES := kmod-mt7916-firmware kmod-switch-rtl8367b wpad-openssl
