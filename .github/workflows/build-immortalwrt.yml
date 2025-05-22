@@ -1,4 +1,4 @@
-name: Build immortalwrt dsa
+name: Build immortalwrt
 
 on:
   repository_dispatch:
@@ -12,7 +12,7 @@ on:
    - cron: 0 16 * * *
 
 env:
-  REPO_URL: https://github.com/immortalwrt
+  REPO_URL: https://github.com/immortalwrt/immortalwrt
   # REPO_BRANCH: main
   FEEDS_CONF: feeds.conf
   CONFIG_FILE: .config
