@@ -20,6 +20,8 @@ sed -i "s/OPENWRT_RELEASE.*/OPENWRT_RELEASE=\"%D %V ${date_version} by ${author}
 
 # 复制相关文件到源码根目录
 cp -rf $GITHUB_WORKSPACE/immortalwrt/ .
+# 复制 g68 配置文件到源码根目录
+cp -f $GITHUB_WORKSPACE/immortalwrt/defconfig/g68-plus-dsa-dsa-docker.config .config
 # 修改启动等待时间为 3 秒。
 sed -i '/^config/s/default "0"/default "3"/' config/Config-images.in
 # 验证修改结果
@@ -48,7 +50,7 @@ endef\
 grep -A10 "RK3568 boards" package/boot/uboot-rockchip/Makefile
 
 sed -i 's/@@ -87,6 +87,23 @@/@@ -87,6 +87,25 @@/' package/boot/uboot-rockchip/patches/900-arm-add-dts-files.patch
-sed -i '/dtb-\$(CONFIG_ROCKCHIP_RK3568) += \\/a \\+ rk3568-nsy-g16-plus.dtb \\\n\+  rk3568-nsy-g68-plus.dtb \\' package/boot/uboot-rockchip/patches/900-arm-add-dts-files.patch
+sed -i '/dtb-\$(CONFIG_ROCKCHIP_RK3568) += \\/a \\+     rk3568-nsy-g16-plus.dtb \\\n\+     rk3568-nsy-g68-plus.dtb \\' package/boot/uboot-rockchip/patches/900-arm-add-dts-files.patch
 # 验证修改结果
 grep -A5 'dtb-\$(CONFIG_ROCKCHIP_RK3568)' package/boot/uboot-rockchip/patches/900-arm-add-dts-files.patch
 
