@@ -26,7 +26,8 @@ sed -i 's/default "0"/default "3"/g' config/Config-images.in
 # Uboot编译处添加设备选项
 sed -i '/mrkaio-m68s-rk3568 \\/a \  nsy-g16-plus-rk3568 \\\n\  nsy-g68-plus-rk3568 \\' package/boot/uboot-rockchip/Makefile
 # 在"# RK3568 boards"注释行后插入两个完整的U-Boot配置块
-sed -i '/^# RK3568 boards$/a \
+sed -i '/# RK3568 boards/a \
+\
 define U-Boot\/nsy-g16-plus-rk3568\
   $(U-Boot\/rk3568\/Default)\
   NAME:=NSY G16 PLUS\
@@ -39,9 +40,12 @@ define U-Boot\/nsy-g68-plus-rk3568\
   NAME:=NSY G68 PLUS\
   BUILD_DEVICES:= \\\
     nsy_g68-plus\
-endef\' package/boot/uboot-rockchip/Makefile
+endef' package/boot/uboot-rockchip/Makefile
 
+# 适配于 24.10 位置 @@ -87,6 +87,23 @@
 sed -i 's/@@ -87,6 +87,23 @@/@@ -87,6 +87,25 @@/' package/boot/uboot-rockchip/patches/900-arm-add-dts-files.patch
+# 适配于 master 位置 @ -74,6 +74,20 @@
+sed -i 's/@@ -74,6 +74,20 @@/@@ -74,6 +74,22 @@/' package/boot/uboot-rockchip/patches/900-arm-add-dts-files.patch
 sed -i '/dtb-\$(CONFIG_ROCKCHIP_RK3568) += \\/a \\+	rk3568-nsy-g16-plus.dtb \\\n\+	rk3568-nsy-g68-plus.dtb \\' package/boot/uboot-rockchip/patches/900-arm-add-dts-files.patch
 
 # 内核 wifi 模块添加驱动文件
