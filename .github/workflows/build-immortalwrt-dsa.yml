@@ -96,14 +96,14 @@ jobs:
         sudo chown $USER:$GROUPS /mnt/workdir
 
     - name: 动态设置分支
-    run: |
-      if [ "${{ github.event_name }}" = "schedule" ]; then
-        echo "REPO_BRANCH=master" >> $GITHUB_ENV
-      else
-        echo "REPO_BRANCH=${{ inputs.REPO_BRANCH }}" >> $GITHUB_ENV
-      fi
+      run: |
+        if [ "${{ github.event_name }}" = "schedule" ]; then
+          echo "REPO_BRANCH=master" >> $GITHUB_ENV
+        else
+          echo "REPO_BRANCH=${{ inputs.REPO_BRANCH }}" >> $GITHUB_ENV
+        fi
 
-   - name: 克隆源码分支 ${{ env.REPO_BRANCH }}
+    - name: 克隆源码分支 ${{ env.REPO_BRANCH }}
       working-directory: /mnt/workdir
       run: |
         df -hT $PWD
