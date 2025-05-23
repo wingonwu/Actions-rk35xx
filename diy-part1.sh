@@ -20,8 +20,6 @@ sed -i "s/OPENWRT_RELEASE.*/OPENWRT_RELEASE=\"%D %V ${date_version} by ${author}
 
 # 复制相关文件到源码根目录
 cp -rf $GITHUB_WORKSPACE/immortalwrt/* .
-# 复制 g68 配置文件到源码根目录
-cp -f defconfig/g68-plus-dsa-docker.config .config
 # 修改启动等待时间为 3 秒。
 sed -i 's/default "0"/default "3"/g' config/Config-images.in
 
@@ -57,9 +55,10 @@ sed -i '/mt7916_wa\.bin \\/ {
 }' package/kernel/mt76/Makefile
 
 #脚本目录添加用户分区
-#sed -i '/ALIGN="$6"/a USERDATASIZE="2048"' scripts/gen_image_generic.sh
+sed -i '/ALIGN="$6"/a USERDATASIZE="2048"' scripts/gen_image_generic.sh
 # 验证修改结果
-#grep -A1 'ALIGN="$6"' scripts/gen_image_generic.sh
+echo 用户软件分区大小：
+grep -A1 'ALIGN="$6"' scripts/gen_image_generic.sh
 
 
 # 添加编译设备dts 信息 
@@ -90,6 +89,19 @@ define Device/nsy_g68-plus
   DEVICE_PACKAGES := kmod-mt7916-firmware wpad-openssl kmod-dsa-rtl8365mb
 endef
 TARGET_DEVICES += nsy_g68-plus" >> target/linux/rockchip/image/armv8.mk
+
+# 网口绑定 CPU 核心
+sed -i '/esac/i \
+nsy,g16-plus)\
+\tset_interface_core 8 "eth0"\
+\tset_interface_core 4 "eth1"\
+\tset_interface_core 2 "mt7615e"\
+\t;;\
+nsy,g68-plus)\
+\tset_interface_core 8 "eth0"\
+\tset_interface_core 4 "eth1"\
+\tset_interface_core 2 "mt7915e"\
+\t;;' target/linux/rockchip/armv8/base-files/etc/hotplug.d/net/40-net-smp-affinity
 
 
 # 结束文件复制
