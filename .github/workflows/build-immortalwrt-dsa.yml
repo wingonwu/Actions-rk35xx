@@ -27,6 +27,10 @@ env:
   REPO_URL: https://github.com/immortalwrt/immortalwrt
   # REPO_BRANCH: main
   FEEDS_CONF: feeds.conf
+  ARCHITECTURE: ARM64
+  SYSTEM_NAME: immortalwrt
+  DEFCONFIG: defconfig
+  BUILD_DEVICE: g68-plus-dsa-docker
   CONFIG_FILE: .config
   DIY_P1_SH: diy-part1.sh
   DIY_P2_SH: diy-part2.sh
@@ -41,8 +45,6 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        ARCHITECTURE:
-          - armv8
         os:
           - ubuntu-22.04
 
@@ -90,7 +92,7 @@ jobs:
         sudo mkdir -p /mnt/workdir
         sudo chown $USER:$GROUPS /mnt/workdir
 
-    - name: 克隆源码 版本→ ${{ inputs.REPO_BRANCH }}
+    - name: 克隆源码分支 ${{ inputs.REPO_BRANCH }}
       working-directory: /mnt/workdir
       run: |
         df -hT $PWD
@@ -101,12 +103,12 @@ jobs:
       uses: klever1988/cachewrtbuild@main
       with:
         ccache: 'true'
-        mixkey: ${{ matrix.os }}-${{ matrix.ARCHITECTURE }}-${{ matrix.REPO_BRANCH }}
+        mixkey: ${{ matrix.os }}-${{ env.ARCHITECTURE }}-${{ inputs.REPO_BRANCH }}
         prefix: ${{ github.workspace }}/openwrt
 
     - name: 加载自定义 feeds
       env:
-        FEEDS_CONF_PATH: ${{ matrix.ARCHITECTURE }}/${{ env.FEEDS_CONF }}
+        FEEDS_CONF_PATH: ${{ env.SYSTEM_NA }}/${{ env.FEEDS_CONF }}
       run: |
         [ -e $FEEDS_CONF_PATH ] && mv $FEEDS_CONF_PATH openwrt/$FEEDS_CONF
         chmod +x $DIY_P1_SH
@@ -121,7 +123,7 @@ jobs:
 
     - name: 加载自定义配置
       env:
-        CONFIG_FILE_PATH: ${{ matrix.ARCHITECTURE }}/${{ env.CONFIG_FILE }}
+        CONFIG_FILE_PATH: ${{ env.SYSTEM_NAME }}/${{ env.DEFCONFIG }}/${{ env.BUILD_DEVICE }}${{ env.CONFIG_FILE }}
       run: |
         [ -e files ] && mv files openwrt/files
         [ -e $CONFIG_FILE_PATH ] && mv $CONFIG_FILE_PATH openwrt/$CONFIG_FILE
@@ -188,11 +190,11 @@ jobs:
         echo "release_tag=$(date +"%Y.%m.%d-%H.%M")" >> ${GITHUB_OUTPUT}
         touch release.txt
         echo "
-        💻 架构: ${{ matrix.ARCHITECTURE }}
+        💻 架构: ${{ env.ARCHITECTURE }}
 
         📂 源码: ${{ env.REPO_URL }}
 
-        🌳 分支: ${{ matrix.REPO_BRANCH }}
+        🌳 分支: ${{ inputs.REPO_BRANCH }}
 
         ⏱️ 编译时间: $(date +"%Y年%m月%d日%H时%M分")
 
