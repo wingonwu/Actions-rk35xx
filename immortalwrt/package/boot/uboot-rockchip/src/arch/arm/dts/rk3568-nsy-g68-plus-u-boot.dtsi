@@ -16,3 +16,7 @@
 	mmc-hs400-enhanced-strobe;
 	pinctrl-0 = <&emmc_bus8 &emmc_clk &emmc_cmd &emmc_datastrobe>;
 };
+&saradc {
+	vref-supply = <&vcca_1v8>;
+	status = "okay";
+};
