@@ -32,7 +32,7 @@ env:
   DEFCONFIG: defconfig
   BUILD_DEVICE: g68-plus-dsa-docker
   CONFIG_FILE: .config
-  DIY_P1_SH: diy-part1.sh
+  DIY_P1_SH: diy-part1-dsa.sh
   DIY_P2_SH: diy-part2.sh
   UPLOAD_BIN_DIR: true
   UPLOAD_FIRMWARE: true
@@ -191,7 +191,7 @@ jobs:
       id: tag
       if: steps.compile.outputs.status == 'success' && env.UPLOAD_RELEASE == 'true' && !cancelled()
       run: |
-        echo "release_tag=$(date +"%Y.%m.%d-%H.%M")" >> ${GITHUB_OUTPUT}
+        echo "release_tag=ImmortalWrt_DSA_$(date +"%Y.%m.%d-%H.%M")" >> ${GITHUB_OUTPUT}
         touch release.txt
         echo "
         💻 架构: ${{ env.ARCHITECTURE }}
