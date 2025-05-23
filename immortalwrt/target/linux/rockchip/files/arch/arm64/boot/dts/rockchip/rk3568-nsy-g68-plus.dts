@@ -309,6 +309,11 @@
 	};
 };
 
+&saradc {
+	vref-supply = <&vcca_1v8>;
+	status = "okay";
+};
+
 &i2c0 {
 
 	status = "okay";

@@ -293,6 +293,10 @@
 	};
 };
 
+&saradc {
+	bootph-pre-ram;
+};
+
 &i2c0 {
 
 	status = "okay";

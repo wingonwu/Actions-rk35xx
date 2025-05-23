@@ -20,3 +20,6 @@
 	vref-supply = <&vcca_1v8>;
 	status = "okay";
 };
+&saradc {
+	bootph-pre-ram;
+};
