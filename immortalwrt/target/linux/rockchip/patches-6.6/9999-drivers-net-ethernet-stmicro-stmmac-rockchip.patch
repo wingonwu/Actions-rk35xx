@@ -1633,15 +1633,15 @@
 +
 --- a/drivers/net/ethernet/stmicro/stmmac/Makefile
 +++ b/drivers/net/ethernet/stmicro/stmmac/Makefile
-@@ -21,7 +21,7 @@
- obj-$(CONFIG_DWMAC_MESON)	+= dwmac-meson.o dwmac-meson8b.o
- obj-$(CONFIG_DWMAC_OXNAS)	+= dwmac-oxnas.o
- obj-$(CONFIG_DWMAC_QCOM_ETHQOS)	+= dwmac-qcom-ethqos.o
+@@ -20,7 +20,7 @@
+obj-$(CONFIG_DWMAC_MEDIATEK)	+= dwmac-mediatek.o
+obj-$(CONFIG_DWMAC_MESON)	+= dwmac-meson.o dwmac-meson8b.o
+obj-$(CONFIG_DWMAC_QCOM_ETHQOS)	+= dwmac-qcom-ethqos.o
 -obj-$(CONFIG_DWMAC_ROCKCHIP)	+= dwmac-rk.o
 +obj-$(CONFIG_DWMAC_ROCKCHIP)	+= dwmac-rk.o dwmac-rk-tool.o
- obj-$(CONFIG_DWMAC_SOCFPGA)	+= dwmac-altr-socfpga.o
- obj-$(CONFIG_DWMAC_STI)		+= dwmac-sti.o
- obj-$(CONFIG_DWMAC_STM32)	+= dwmac-stm32.o
+obj-$(CONFIG_DWMAC_SOCFPGA)	+= dwmac-altr-socfpga.o
+obj-$(CONFIG_DWMAC_STARFIVE)	+= dwmac-starfive.o
+obj-$(CONFIG_DWMAC_STI)		+= dwmac-sti.o
 --- a/drivers/net/ethernet/stmicro/stmmac/dwmac-rk.c
 +++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-rk.c
 @@ -24,6 +24,7 @@
@@ -1652,7 +1652,7 @@
  
  struct rk_priv_data;
  struct rk_gmac_ops {
-@@ -1704,8 +1705,11 @@ static int rk_gmac_clk_init(struct plat_
+@@ -1661,8 +1664,11 @@ static int rk_gmac_clk_init(struct plat_
  		bsp_priv->clks[i].id = rk_clocks[i];
  
  	if (phy_iface == PHY_INTERFACE_MODE_RMII) {
@@ -1665,7 +1665,7 @@
  	}
  
  	ret = devm_clk_bulk_get_optional(dev, bsp_priv->num_clks,
-@@ -2002,6 +2008,40 @@ static void rk_fix_speed(void *priv, uns
+@@ -2002,6 +2007,40 @@ static void rk_fix_speed(void *priv, uns
  	}
  }
  
