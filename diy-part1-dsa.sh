@@ -79,7 +79,7 @@ echo -e "\\ndefine Device/nsy_g16-plus
   DEVICE_DTS := rockchip/rk3568-nsy-g16-plus
   UBOOT_DEVICE_NAME := nsy-g16-plus-rk3568
   BOOT_FLOW := pine64-img
-  DEVICE_PACKAGES := kmod-mt7615-firmware wpad-openssl
+  DEVICE_PACKAGES := kmod-mt7615-firmware wpad-openssl kmod-dsa-rtl8365mb
 endef
 TARGET_DEVICES += nsy_g16-plus
 
@@ -111,10 +111,10 @@ nsy,g68-plus)\
 sed -i '/rockchip_setup_interfaces()/,/case "$board" in/ {
   /case "$board" in/a \
 \	nsy,g16-plus)\
-\		ucidef_set_interfaces_lan_wan "eth0 lan1 lan2 lan3" "eth1 wan"
+\		ucidef_set_interfaces_lan_wan "eth0 lan1 lan2 lan3" "eth1 wan"\
 \		;;\
 \	nsy,g68-plus)\
-\		uucidef_set_interfaces_lan_wan "eth0 lan1 lan2 lan3 lan4" "eth1 wan"
+\		uucidef_set_interfaces_lan_wan "eth0 lan1 lan2 lan3 lan4" "eth1 wan"\
 \		;;
 }' target/linux/rockchip/armv8/base-files/etc/board.d/02_network
 
