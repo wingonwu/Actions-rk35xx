@@ -16,7 +16,7 @@
  	regmap_write(bsp_priv->grf, con1, RK3568_GMAC_GMII_MODE);
  
  	xpcs_setup(bsp_priv, PHY_INTERFACE_MODE_QSGMII);
-@@ -1220,7 +1221,7 @@ static void rk3568_set_to_rgmii(struct r
+@@ -1221,7 +1221,7 @@ static void rk3568_set_to_rgmii(struct r
  				     RK3568_GRF_GMAC0_CON0;
  	con1 = (bsp_priv->id == 1) ? RK3568_GRF_GMAC1_CON1 :
  				     RK3568_GRF_GMAC0_CON1;
@@ -25,7 +25,7 @@
  	regmap_write(bsp_priv->grf, con0,
  		     RK3568_GMAC_CLK_RX_DL_CFG(rx_delay) |
  		     RK3568_GMAC_CLK_TX_DL_CFG(tx_delay));
-@@ -1243,6 +1244,7 @@ static void rk3568_set_to_rmii(struct rk
+@@ -1244,6 +1244,7 @@ static void rk3568_set_to_rmii(struct rk
  
  	con1 = (bsp_priv->id == 1) ? RK3568_GRF_GMAC1_CON1 :
  				     RK3568_GRF_GMAC0_CON1;

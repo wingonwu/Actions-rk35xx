@@ -95,11 +95,19 @@ jobs:
         sudo mkdir -p /mnt/workdir
         sudo chown $USER:$GROUPS /mnt/workdir
 
-    - name: 克隆源码分支 ${{ inputs.REPO_BRANCH }}
+    - name: 动态设置分支
+      run: |
+        if [ "${{ github.event_name }}" = "schedule" ]; then
+          echo "REPO_BRANCH=master" >> $GITHUB_ENV
+        else
+          echo "REPO_BRANCH=${{ inputs.REPO_BRANCH }}" >> $GITHUB_ENV
+        fi
+
+    - name: 克隆源码分支 ${{ env.REPO_BRANCH }}
       working-directory: /mnt/workdir
       run: |
         df -hT $PWD
-        git clone -b ${{ inputs.REPO_BRANCH }} --single-branch --filter=blob:none $REPO_URL openwrt
+        git clone -b ${{ env.REPO_BRANCH }} --single-branch --filter=blob:none $REPO_URL openwrt
         # git clone $REPO_URL -b ${{ inputs.REPO_BRANCH }} openwrt
         ln -sf /mnt/workdir/openwrt $GITHUB_WORKSPACE/openwrt
 
